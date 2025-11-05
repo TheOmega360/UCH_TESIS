@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel - Samay</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+  <div class="d-flex" id="wrapper">
+    <!-- Sidebar -->
+    <nav id="sidebar" class="bg-dark text-white p-3">
+      <div class="d-flex align-items-center mb-3">
+        <button class="btn btn-dark me-2" id="toggleSidebar">☰</button>
+        <h4 class="m-0">Samay</h4>
+      </div>
+      <ul class="nav flex-column">
+        <li><a href="pages/registro.html" class="nav-link text-white">Registro de atenciones</a></li>
+        <li><a href="pages/lista.html" class="nav-link text-white">Lista</a></li>
+        <li><a href="pages/reportes.html" class="nav-link text-white">Generador de reportes</a></li>
+      </ul>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="flex-grow-1 p-4 bg-light" id="content">
+      <div class="d-flex justify-content-end align-items-center mb-4">
+        <div class="dropdown text-end">
+          <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+            <div class="text-end me-2">
+              <div id="userName" class="fw-bold"></div>
+              <small id="profesion" class="text-muted"></small>
+            </div>
+            <div class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center" style="width:40px;height:40px;">
+              <span id="userInitial">S</span>
+            </div>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#" id="logout">Cerrar sesión</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <h2>Bienvenido al Panel de Estadísticas</h2>
+        <img src="img/estadistica.png" class="img-fluid mt-3" style="max-width: 400px;">
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

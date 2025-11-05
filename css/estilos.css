@@ -1,0 +1,89 @@
+/* ====== Estilos generales ====== */
+body {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  background-color: #f3f6fb;
+  margin: 0;
+  padding: 0;
+}
+
+/* ====== Sidebar ====== */
+#sidebar {
+  width: 240px;
+  height: 100vh;
+  background-color: #0f172a;
+  color: white;
+  transition: width 0.25s ease;
+  position: sticky;
+  top: 0;
+  padding: 1rem;
+}
+
+#sidebar.collapsed {
+  width: 70px;
+}
+
+#sidebar h4 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+#sidebar .nav-link {
+  color: rgba(255, 255, 255, 0.9);
+  padding: 8px 12px;
+  display: block;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+#sidebar .nav-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ====== Contenido principal ====== */
+.main-content {
+  width: calc(100% - 240px);
+  min-height: 100vh;
+  padding: 2rem;
+  transition: width 0.25s ease;
+  background-color: #f8fafc;
+}
+
+#sidebar.collapsed + .main-content {
+  width: calc(100% - 70px);
+}
+
+/* ====== Encabezado de usuario ====== */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.4em;
+}
+
+/* ====== Responsividad ====== */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    z-index: 1030;
+    transform: translateX(-100%);
+  }
+
+  #sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+  }
+}

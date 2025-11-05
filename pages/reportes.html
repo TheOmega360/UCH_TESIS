@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de reportes - Samay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body class="p-3">
+    <div class="d-flex">
+    <nav id="sidebar" class="bg-dark text-white p-3" style="width:240px;">
+      <div class="d-flex align-items-center mb-4">
+        <button id="toggleSidebar2" class="btn btn-sm btn-outline-light me-2">☰</button>
+        <h5 class="m-0">Samay</h5>
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a href="registro.html" class="nav-link text-white">Registro de atenciones</a></li>
+        <li class="nav-item"><a href="lista.html" class="nav-link text-white">Lista</a></li>
+        <li class="nav-item"><a href="reportes.html" class="nav-link text-white">Generador de reportes</a></li>
+      </ul>
+    </nav><div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3>Generador de reportes</h3>
+      <a href="../index.html" class="btn btn-outline-secondary">Volver</a>
+    </div>
+
+    <div class="card p-3 shadow">
+      <p>En esta demo los reportes se generan con los datos locales.</p>
+      <button id="downloadReport" class="btn btn-primary">Descargar reporte (CSV)</button>
+    </div>
+  </div>
+
+<script>
+document.getElementById('downloadReport').addEventListener('click', ()=>{
+  const data = JSON.parse(localStorage.getItem('atenciones')||'[]');
+  let csv = 'dni,nombres,apellido_paterno,apellido_materno,dx\\n';
+  data.forEach(d=>{
+    csv += `${d.dni||''},"${(d.nombres||'').replace(/"/g,'""')}","${(d.apellido_paterno||'').replace(/"/g,'""')}","${(d.apellido_materno||'').replace(/"/g,'""')}","${(d.dx||'').replace(/"/g,'""')}\\n'`;
+  });
+  const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'reporte_atenciones.csv'; a.click();
+  URL.revokeObjectURL(url);
+});
+</script>
+</body>
+</html>

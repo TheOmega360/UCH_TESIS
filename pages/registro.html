@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Registro de Atenciones - Samay</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/estilos.css">
+</head>
+<body>
+  <div class="d-flex">
+    <nav id="sidebar" class="bg-dark text-white p-3" style="width:240px;">
+      <div class="d-flex align-items-center mb-4">
+        <button id="toggleSidebar2" class="btn btn-sm btn-outline-light me-2">☰</button>
+        <h5 class="m-0">Samay</h5>
+      </div>
+      <ul class="nav flex-column">
+        <li class="nav-item"><a href="registro.html" class="nav-link text-white">Registro de atenciones</a></li>
+        <li class="nav-item"><a href="lista.html" class="nav-link text-white">Lista</a></li>
+        <li class="nav-item"><a href="reportes.html" class="nav-link text-white">Generador de reportes</a></li>
+      </ul>
+    </nav>
+
+    <main class="p-4 w-100">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Registro de Atenciones</h3>
+      </div>
+
+      <form id="registroForm" class="card p-3 shadow">
+        <div class="row g-3">
+          <div class="col-md-2">
+            <label class="form-label">Día</label>
+            <input type="number" class="form-control" name="dia" min="1" max="31" value="1">
+          </div>
+          <div class="col-md-3">
+            <label class="form-label">Mes</label>
+            <select class="form-select" name="mes">
+              <option>Enero</option><option>Febrero</option><option>Marzo</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label">Turno</label>
+            <select class="form-select" name="turno"><option>M</option><option>T</option></select>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Nombres</label>
+            <input type="text" class="form-control" name="nombres" placeholder="Nombres completos" required>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Apellido Paterno</label>
+            <input type="text" class="form-control" name="apellido_paterno" placeholder="Apellido paterno" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">Apellido Materno</label>
+            <input type="text" class="form-control" name="apellido_materno" placeholder="Apellido materno" required>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label">DNI</label>
+            <input type="text" class="form-control" name="dni" maxlength="8">
+          </div>
+
+          <div class="col-12">
+            <label class="form-label">DX y Actividades realizadas</label>
+          </div>
+
+          <div class="col-12">
+            <h6>Códigos CIE10</h6>
+            <table class="table table-bordered" id="cieTable">
+              <thead><tr><th>Código CIE10</th><th>Descripción</th><th>Tipo</th><th>Lab 1</th><th>Lab 2</th><th>Lab 3</th><th></th></tr></thead>
+              <tbody></tbody>
+            </table>
+            <button type="button" class="btn btn-sm btn-primary" id="addRow">+ Agregar fila</button>
+          </div>
+
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-success">Guardar</button>
+          </div>
+        </div>
+      </form>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../js/sidebar.js"></script>
+  <script>
+    // Sidebar toggle for this page
+    document.getElementById('toggleSidebar2').addEventListener('click', ()=>{
+      document.getElementById('sidebar').classList.toggle('collapsed');
+    });
+
+    // Dynamic CIE10 table
+    const tbody = document.querySelector('#cieTable tbody');
+    document.getElementById('addRow').addEventListener('click', ()=>{
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><input class="form-control" name="cie_codigo"></td>
+                      <td><input class="form-control" name="cie_desc"></td>
+                      <td><select class="form-select" name="cie_tipo"><option>P</option><option>S</option></select></td>
+                      <td><input class="form-control" name="cie_lab1"></td>
+                      <td><input class="form-control" name="cie_lab2"></td>
+                      <td><input class="form-control" name="cie_lab3"></td>
+                      <td class="text-center"><button type="button" class="btn btn-sm btn-danger remove">X</button></td>`;
+      tbody.appendChild(tr);
+      tr.querySelector('.remove').addEventListener('click', ()=> tr.remove());
+    });
+
+    // Simple save to localStorage
+    document.getElementById('registroForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      const cie = Array.from(tbody.querySelectorAll('tr')).map(r=>({
+        codigo: r.querySelector('[name=cie_codigo]').value,
+        desc: r.querySelector('[name=cie_desc]').value,
+        tipo: r.querySelector('[name=cie_tipo]').value,
+        lab1: r.querySelector('[name=cie_lab1]').value,
+        lab2: r.querySelector('[name=cie_lab2]').value,
+        lab3: r.querySelector('[name=cie_lab3]').value
+      }));
+      data.cie = cie;
+      const db = JSON.parse(localStorage.getItem('atenciones')||'[]');
+      db.push(data);
+      localStorage.setItem('atenciones', JSON.stringify(db));
+      alert('Registro guardado localmente (demo).');
+      e.target.reset();
+      tbody.innerHTML = '';
+    });
+  </script>
+</body>
+</html>
